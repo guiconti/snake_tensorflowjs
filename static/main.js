@@ -1,7 +1,9 @@
 $(function() {
 
   $('#restart').on('click', function() {
-    window.location.reload();
+    //window.location.reload();
+    $('#snakeCanvas').html('');
+    initializeSnakeGame();
   });
 
   if (Cookies.get('username')) {
@@ -25,9 +27,9 @@ $(function() {
 
   function setupGame() {
     const playerName = $('#playerName').val();
-    if (playerName.length < 3 ||
+    if (playerName.length < 1 ||
       playerName.length > 10) {
-      $('#error').html('3-10 characters only please');
+      $('#error').html('1-10 characters only please');
     } else {
       Cookies.set('username', playerName);
       $('#gameDiv').show();
@@ -42,5 +44,6 @@ $(function() {
     document.body.scrollTop = 0; // For Chrome, Safari and Opera
     document.documentElement.scrollTop = 0; // For IE and Firefox
     const SNAKE_GAME_OBJ = new p5(SNAKE_GAME.SNAKE_GAME_FUNCTION);
+    ai.start();
   }
 });

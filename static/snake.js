@@ -53,6 +53,8 @@ const SNAKE_GAME = (function () {
       for (let i = 0; i < numSegments - 1; i++) {
         snake.line(X_COR[i], Y_COR[i], X_COR[i + 1], Y_COR[i + 1]);
       }
+
+      directionsQueue.push(ai.takeAction());
       handleDirection();
       updateSnakeCoordinates();
       checkGameStatus();
@@ -142,10 +144,11 @@ const SNAKE_GAME = (function () {
         checkSnakeCollision()) {
         snake.noLoop();
         const SCORE_VAL = SCORE.html().substring(8);
-        SNAKE_GAME_SOCKET.emit('result', {
+        /**SNAKE_GAME_SOCKET.emit('result', {
           name: Cookies.get('username'),
           val: SCORE_VAL
         });
+        **/
         SCORE.html('Game ended! Score : ' + SCORE_VAL);
         $('#restart').show();
       }
