@@ -5,16 +5,18 @@ const SNAKE_GAME = (function () {
     const PARENT_WIDTH = $('#snakeCanvas').parent().width();
     const WINDOW_HEIGHT = window.innerHeight;
 
-    let canvasWidth = PARENT_WIDTH > 500 && WINDOW_HEIGHT - 100 > 500 ? 500 : PARENT_WIDTH > WINDOW_HEIGHT - 100 ? WINDOW_HEIGHT - 100 : PARENT_WIDTH - 40;
+    const MAX_GAME_SIZE = 100;
+
+    let canvasWidth = PARENT_WIDTH > MAX_GAME_SIZE && WINDOW_HEIGHT - 100 > MAX_GAME_SIZE ? MAX_GAME_SIZE : PARENT_WIDTH > WINDOW_HEIGHT - 100 ? WINDOW_HEIGHT - 100 : PARENT_WIDTH - 40;
     let canvasHeight = canvasWidth;
 
     // the snake is divided into small segments, which are drawn and edited on each 'draw' call
-    let numSegments = 10;
+    let numSegments = 3;
     let direction = 'right';
 
     const SNAKE_XSTART = 0; //starting x coordinate for snake
     const SNAKE_YSTART = Math.floor(canvasWidth / 20) * 10; //starting y coordinate for snake
-    const DIFF = 10;
+    const PIXELS_PER_SQUARE = 10;
     let frameRate = 20;
     let directionsQueue = [];
 
@@ -34,7 +36,7 @@ const SNAKE_GAME = (function () {
       snake.strokeWeight(6);
       SCORE.html('Score : ' + 0);
 
-      if (window.innerWidth >= 500) {
+      if (window.innerWidth >= MAX_GAME_SIZE) {
         $('#controls').hide();
       }
 
@@ -42,7 +44,7 @@ const SNAKE_GAME = (function () {
       updateFruitCoordinates();
 
       for (let i = 0; i < numSegments; i++) {
-        X_COR.push(SNAKE_XSTART + (i * DIFF));
+        X_COR.push(SNAKE_XSTART + (i * PIXELS_PER_SQUARE));
         Y_COR.push(SNAKE_YSTART);
       }
     };
@@ -54,6 +56,7 @@ const SNAKE_GAME = (function () {
         snake.line(X_COR[i], Y_COR[i], X_COR[i + 1], Y_COR[i + 1]);
       }
 
+      //  TODO: AI should be independent from the game
       directionsQueue.push(ai.takeAction());
       handleDirection();
       updateSnakeCoordinates();
@@ -102,7 +105,7 @@ const SNAKE_GAME = (function () {
      and this results in the movement of the snake.
      The last segment is added based on the direction in which the snake is going,
      if it's going left or right, the last segment's x coordinate is increased by a
-     predefined value 'DIFF' than its second to last segment. And if it's going up
+     predefined value 'PIXELS_PER_SQUARE' than its second to last segment. And if it's going up
      or down, the segment's y coordinate is affected.
     */
     function updateSnakeCoordinates() {
@@ -113,20 +116,20 @@ const SNAKE_GAME = (function () {
       }
       switch (direction) {
         case 'right':
-          X_COR[numSegments - 1] = X_COR[numSegments - 2] + DIFF;
+          X_COR[numSegments - 1] = X_COR[numSegments - 2] + PIXELS_PER_SQUARE;
           Y_COR[numSegments - 1] = Y_COR[numSegments - 2];
           break;
         case 'up':
           X_COR[numSegments - 1] = X_COR[numSegments - 2];
-          Y_COR[numSegments - 1] = Y_COR[numSegments - 2] - DIFF;
+          Y_COR[numSegments - 1] = Y_COR[numSegments - 2] - PIXELS_PER_SQUARE;
           break;
         case 'left':
-          X_COR[numSegments - 1] = X_COR[numSegments - 2] - DIFF;
+          X_COR[numSegments - 1] = X_COR[numSegments - 2] - PIXELS_PER_SQUARE;
           Y_COR[numSegments - 1] = Y_COR[numSegments - 2];
           break;
         case 'down':
           X_COR[numSegments - 1] = X_COR[numSegments - 2];
-          Y_COR[numSegments - 1] = Y_COR[numSegments - 2] + DIFF;
+          Y_COR[numSegments - 1] = Y_COR[numSegments - 2] + PIXELS_PER_SQUARE;
           break;
       }
     }
