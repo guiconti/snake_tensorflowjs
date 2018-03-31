@@ -24,7 +24,6 @@ $(function() {
     });
   }
 
-
   function setupGame() {
     const playerName = $('#playerName').val();
     if (playerName.length < 1 ||
@@ -39,7 +38,16 @@ $(function() {
   }
 
   function initializeSnakeGame() {
+    let width = $('#width').val();
+    let height = $('#height').val();
+    let speed = $('#speed').val();
+
+    if ((width <= 0 || !isInt(width)) || (height <= 0 || !isInt(height)) || (speed <= 0 || !isInt(speed))){
+      $('#error').html('Width, height and speed must be positive numbers');
+      return;
+    }
     $('#initialDiv').hide();
+    $('#canvasDiv').hide();
     $('#restart').hide();
     document.body.scrollTop = 0; // For Chrome, Safari and Opera
     document.documentElement.scrollTop = 0; // For IE and Firefox
@@ -47,3 +55,11 @@ $(function() {
     ai.start();
   }
 });
+
+function isInt(value) {
+  if (isNaN(value)) {
+    return false;
+  }
+  var x = parseFloat(value);
+  return (x | 0) === x;
+}

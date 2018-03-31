@@ -5,19 +5,19 @@ const SNAKE_GAME = (function () {
     const PARENT_WIDTH = $('#snakeCanvas').parent().width();
     const WINDOW_HEIGHT = window.innerHeight;
 
-    const MAX_GAME_SIZE = 100;
+    const MAX_GAME_SIZE = $('#width').val();
 
     let canvasWidth = PARENT_WIDTH > MAX_GAME_SIZE && WINDOW_HEIGHT - 100 > MAX_GAME_SIZE ? MAX_GAME_SIZE : PARENT_WIDTH > WINDOW_HEIGHT - 100 ? WINDOW_HEIGHT - 100 : PARENT_WIDTH - 40;
-    let canvasHeight = canvasWidth;
+    let canvasHeight = $('#height').val();;
 
     // the snake is divided into small segments, which are drawn and edited on each 'draw' call
     let numSegments = 3;
     let direction = 'right';
-
-    const SNAKE_XSTART = 0; //starting x coordinate for snake
-    const SNAKE_YSTART = Math.floor(canvasWidth / 20) * 10; //starting y coordinate for snake
     const PIXELS_PER_SQUARE = 10;
-    let frameRate = 20;
+    const SNAKE_XSTART = 0; //starting x coordinate for snake
+    const SNAKE_YSTART = Math.floor(canvasWidth / 20) * PIXELS_PER_SQUARE; //starting y coordinate for snake
+
+    let frameRate = parseInt($('#speed').val());
     let directionsQueue = [];
 
     const X_COR = [];
@@ -57,7 +57,7 @@ const SNAKE_GAME = (function () {
       }
 
       //  TODO: AI should be independent from the game
-      directionsQueue.push(ai.takeAction());
+      directionsQueue.push(ai.takeAction(X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height));
       handleDirection();
       updateSnakeCoordinates();
       checkGameStatus();
@@ -145,6 +145,7 @@ const SNAKE_GAME = (function () {
         Y_COR[Y_COR.length - 1] > snake.height ||
         Y_COR[Y_COR.length - 1] < 0 ||
         checkSnakeCollision()) {
+        ai.updateTable(-9999, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
         snake.noLoop();
         const SCORE_VAL = SCORE.html().substring(8);
         /**SNAKE_GAME_SOCKET.emit('result', {
@@ -154,6 +155,7 @@ const SNAKE_GAME = (function () {
         **/
         SCORE.html('Game ended! Score : ' + SCORE_VAL);
         $('#restart').show();
+        $('#restart').click();
       }
     }
 
@@ -179,6 +181,7 @@ const SNAKE_GAME = (function () {
     function checkForFruit() {
       snake.point(xFruit, yFruit);
       if (X_COR[X_COR.length - 1] === xFruit && Y_COR[Y_COR.length - 1] === yFruit) {
+        ai.updateTable(1, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
         const PREV_SCORE = parseInt(SCORE.html().substring(8));
         SCORE.html('Score : ' + (PREV_SCORE + 1));
         X_COR.unshift(X_COR[0]);
@@ -186,6 +189,8 @@ const SNAKE_GAME = (function () {
         numSegments++;
         snake.setFrameRate(frameRate++);
         updateFruitCoordinates();
+      } else {
+        ai.updateTable(0, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
       }
     }
 
@@ -195,8 +200,8 @@ const SNAKE_GAME = (function () {
         in between 100 and width-100, and be rounded off to the nearest
         number divisible by 10, since I move the snake in multiples of 10.
       */
-      xFruit = snake.floor(snake.random(10, (snake.width - 100) / 10)) * 10;
-      yFruit = snake.floor(snake.random(10, (snake.height - 100) / 10)) * 10;
+      xFruit = snake.floor(snake.random(PIXELS_PER_SQUARE, (snake.width - 100) / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
+      yFruit = snake.floor(snake.random(PIXELS_PER_SQUARE, (snake.height - 100) / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
       //console.log("x - " + xFruit);
       //console.log("y - " + yFruit);
     }
