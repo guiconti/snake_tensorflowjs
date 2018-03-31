@@ -8,7 +8,7 @@ const SNAKE_GAME = (function () {
     const MAX_GAME_SIZE = $('#width').val();
 
     let canvasWidth = PARENT_WIDTH > MAX_GAME_SIZE && WINDOW_HEIGHT - 100 > MAX_GAME_SIZE ? MAX_GAME_SIZE : PARENT_WIDTH > WINDOW_HEIGHT - 100 ? WINDOW_HEIGHT - 100 : PARENT_WIDTH - 40;
-    let canvasHeight = $('#height').val();;
+    let canvasHeight = $('#height').val();
 
     // the snake is divided into small segments, which are drawn and edited on each 'draw' call
     let numSegments = 3;
@@ -145,7 +145,7 @@ const SNAKE_GAME = (function () {
         Y_COR[Y_COR.length - 1] > snake.height ||
         Y_COR[Y_COR.length - 1] < 0 ||
         checkSnakeCollision()) {
-        ai.updateTable(-9999, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
+        ai.updateTable(Number.MIN_SAFE_INTEGER, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
         snake.noLoop();
         const SCORE_VAL = SCORE.html().substring(8);
         /**SNAKE_GAME_SOCKET.emit('result', {
@@ -181,7 +181,7 @@ const SNAKE_GAME = (function () {
     function checkForFruit() {
       snake.point(xFruit, yFruit);
       if (X_COR[X_COR.length - 1] === xFruit && Y_COR[Y_COR.length - 1] === yFruit) {
-        ai.updateTable(1, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
+        ai.updateTable(100, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
         const PREV_SCORE = parseInt(SCORE.html().substring(8));
         SCORE.html('Score : ' + (PREV_SCORE + 1));
         X_COR.unshift(X_COR[0]);
@@ -190,7 +190,7 @@ const SNAKE_GAME = (function () {
         snake.setFrameRate(frameRate++);
         updateFruitCoordinates();
       } else {
-        ai.updateTable(0, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
+        ai.updateTable(-1, X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height);
       }
     }
 
