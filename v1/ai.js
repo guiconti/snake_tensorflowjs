@@ -18,7 +18,7 @@ function start(possibleStates, possibleActions){
 }
 
 function takeAction(snakeXPoints, snakeYPoints, xFruit, yFruit, gameWidth, gameHeight){
-  lastState = snakeXPoints.join('').toString() + snakeYPoints.join('').toString() + gameWidth.toString() + gameHeight.toString();
+  lastState = snakeXPoints.join('').toString() + snakeXPoints.join('').toString() + xFruit.toString() + yFruit.toString() + gameWidth.toString() + gameHeight.toString();
   let max = -99999;
   if (QTable[lastState] == undefined){
     QTable[lastState] = [];
@@ -50,7 +50,7 @@ function takeAction(snakeXPoints, snakeYPoints, xFruit, yFruit, gameWidth, gameH
 }
 
 function updateTable(reward, snakeXPoints, snakeYPoints, xFruit, yFruit, gameWidth, gameHeight){
-  let newState = snakeXPoints.join('').toString() + snakeYPoints.join('').toString() + gameWidth.toString() + gameHeight.toString();
+  let newState = snakeXPoints.join('').toString() + snakeXPoints.join('').toString() + xFruit.toString() + yFruit.toString() + gameWidth.toString() + gameHeight.toString();
   if (QTable[newState] == undefined){
     QTable[newState] = [];
     QTable[newState][0] = -1;
