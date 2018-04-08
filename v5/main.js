@@ -26,7 +26,7 @@ $(function() {
     initializeSnakeGame();
   });
 
-  if (Cookies.get('username')) {
+  /**if (Cookies.get('username')) {
     //console.log('Welcome back ' + Cookies.get('username'));
     initializeSnakeGame();
   } else {
@@ -42,7 +42,7 @@ $(function() {
     $('#startGame').on('click', function() {
       setupGame();
     });
-  }
+  }**/
 
   function setupGame() {
     const playerName = $('#playerName').val();
