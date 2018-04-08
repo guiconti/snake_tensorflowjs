@@ -1,5 +1,4 @@
-const converter = new showdown.Converter();
-const text = `# Snake AI
+# Snake AI
 
 ## [V1](v1/index.html)
 Simple QLearning implementation with bad rewards and states
@@ -15,6 +14,4 @@ Changing states to be more precise using the map as a X*Y grid. At the moment th
 
 ## [V5](v5/index.html)
 Implementing E Greedy policy for better exploration and exploitation
-`;
-const htmlBody = document.getElementById("markdown");
-htmlBody.innerHTML = converter.makeHtml(text);
+
