@@ -8,14 +8,14 @@ function updateGammaRate(gammaRate){
   gammaRateValue.innerHTML = gammaRate/100;
 }
 
-function updateExploitRate(exploitRate){
-  const exploitRateValue = document.getElementById("exploitRateValue");
-  exploitRateValue.innerHTML = exploitRate/100;
+function updateExploreRate(exploreRate){
+  const exploreRateValue = document.getElementById("exploreRateValue");
+  exploreRateValue.innerHTML = exploreRate/100;
 }
 
-function updateDecayExploitRate(decayExploitRate){
-  const decayExploitRateValue = document.getElementById("decayExploitRateValue");
-  decayExploitRateValue.innerHTML = decayExploitRate/100;
+function updateDecayExploreRate(decayExploreRate){
+  const decayExploreRateValue = document.getElementById("decayExploreRateValue");
+  decayExploreRateValue.innerHTML = decayExploreRate/100;
 }
 
 $(function() {
@@ -45,7 +45,6 @@ $(function() {
   } **/
 
   function setupGame() {
-    console.log(0);
     const playerName = $('#playerName').val();
     if (playerName.length < 1 ||
       playerName.length > 10) {
@@ -56,6 +55,7 @@ $(function() {
       $(document).unbind('keypress');
       initializeSnakeGame();
     }
+    ai.start();
   }
 
   function initializeSnakeGame() {
@@ -67,6 +67,7 @@ $(function() {
       $('#error').html('Width, height and speed must be positive numbers');
       return;
     }
+
     $('#initialDiv').hide();
     $('#AIDivLabels').hide();
     $('#AIDivValues').hide();
@@ -75,7 +76,6 @@ $(function() {
     document.body.scrollTop = 0; // For Chrome, Safari and Opera
     document.documentElement.scrollTop = 0; // For IE and Firefox
     const SNAKE_GAME_OBJ = new p5(SNAKE_GAME.SNAKE_GAME_FUNCTION);
-    ai.start();
   }
 });
 

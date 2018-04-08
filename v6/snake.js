@@ -40,8 +40,6 @@ const SNAKE_GAME = (function () {
         $('#controls').hide();
       }
 
-      ai.start(canvasWidth, canvasHeight, PIXELS_PER_SQUARE);
-
       initializeControls();
       updateFruitCoordinates();
 
@@ -60,8 +58,8 @@ const SNAKE_GAME = (function () {
       }
 
       //  TODO: AI should be independent from the game
-      ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit);
-      directionsQueue.push(ai.takeAction(X_COR, Y_COR, xFruit, yFruit, snake.width, snake.height));
+      ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE);
+      directionsQueue.push(ai.takeAction());
       handleDirection();
       updateSnakeCoordinates();
       checkGameStatus();
@@ -149,7 +147,7 @@ const SNAKE_GAME = (function () {
         Y_COR[Y_COR.length - 1] > snake.height ||
         Y_COR[Y_COR.length - 1] < 0 ||
         checkSnakeCollision()) {
-        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, true);
+        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE, true);
         ai.updateTable(Number.MIN_SAFE_INTEGER);
         snake.noLoop();
         const SCORE_VAL = SCORE.html().substring(8);
@@ -193,10 +191,10 @@ const SNAKE_GAME = (function () {
         numSegments++;
         snake.setFrameRate(frameRate++);
         updateFruitCoordinates();
-        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, true);
+        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE, true);
         ai.updateTable(100);
       } else {
-        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, true);
+        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE, true);
         ai.updateTable(-1);
       }
     }
@@ -207,10 +205,10 @@ const SNAKE_GAME = (function () {
         in between 100 and width-100, and be rounded off to the nearest
         number divisible by 10, since I move the snake in multiples of 10.
       */
-      xFruit = snake.floor(snake.random(PIXELS_PER_SQUARE, (snake.width - 100) / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
-      yFruit = snake.floor(snake.random(PIXELS_PER_SQUARE, (snake.height - 100) / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
-      //console.log("x - " + xFruit);
-      //console.log("y - " + yFruit);
+      xFruit = snake.floor(snake.random(PIXELS_PER_SQUARE, snake.width / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
+      yFruit = snake.floor(snake.random(PIXELS_PER_SQUARE, snake.height / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
+      console.log("x - " + xFruit);
+      console.log("y - " + yFruit);
     }
 
     function initializeControls() {

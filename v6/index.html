@@ -55,10 +55,10 @@
             <label for="width">Future significancy: </label><span id="gammaRateValue">0.95</span>
           </div>
           <div class="col-xs-3">
-            <label for="width">Probability to exploit: </label><span id="exploitRateValue">0.10</span>
+            <label for="width">Probability to explore: </label><span id="exploreRateValue">0.10</span>
           </div>
           <div class="col-xs-3">
-              <label for="width">Decay exploit rate: </label><span id="decayExploitRateValue">0.10</span>
+              <label for="width">Decay explore rate: </label><span id="decayExploreRateValue">0.10</span>
             </div>
         </div>
 
@@ -70,21 +70,21 @@
             <input type="range" min="0" max="100" value="95" class="slider" id="gammaRate" oninput="updateGammaRate(this.value)">
           </div>
           <div class="col-xs-3">
-            <input type="range" min="0" max="100" value="10" class="slider" id="exploitRate" oninput="updateExploitRate(this.value)">
+            <input type="range" min="0" max="100" value="10" class="slider" id="exploreRate" oninput="updateExploreRate(this.value)">
           </div>
           <div class="col-xs-3">
-            <input type="range" min="0" max="100" value="10" class="slider" id="decayExploitRate" oninput="updateDecayExploitRate(this.value)">
+            <input type="range" min="0" max="100" value="10" class="slider" id="decayExploreRate" oninput="updateDecayExploreRate(this.value)">
           </div>
         </div>
 
         <div id="canvasDiv" class="row">
           <div class="col-xs-3">
             <label for="width">Width</label>
-            <input type="text" value=100 class="form-control" id="width">
+            <input type="text" value=200 class="form-control" id="width">
           </div>
           <div class="col-xs-3">
             <label for="height">Height</label>
-            <input type="text" value=100 class="form-control" id="height">
+            <input type="text" value=200 class="form-control" id="height">
           </div>
         </div>
         <div id="paramDiv" class="row">

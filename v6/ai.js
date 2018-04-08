@@ -11,12 +11,8 @@ let QTable = [];
 let rewardList = [];
 let learningRate = .8;
 let futureSignificancy = .95;
-let probabilityToExploit = .1;
-let exploitDecay = .1;
-
-let stateColumns;
-let stateRows;
-let squareSize;
+let probabilityToExplore = .1;
+let exploreDecay = .1;
 
 let newState;
 let lastState;
@@ -29,16 +25,11 @@ const directions = {
   'down': '3'
 };
 
-function start(gameWidth, gameHeight, pixelsPerSquare){
-  console.log(0);
+function start(){
   learningRate = $('#learningRate').val()/100;
   futureSignificancy = $('#gammaRate').val()/100;
-  probabilityToExploit = $('#exploitRate').val()/100;
-  exploitDecay = $('#decayExploitRate').val()/100;
-
-  stateColumns = gameWidth/pixelsPerSquare;
-  stateRows = gameHeight/pixelsPerSquare;
-  squareSize = pixelsPerSquare;
+  probabilityToExplore = $('#exploreRate').val()/100;
+  exploreDecay = $('#decayExploreRate').val()/100;
 }
 
 function takeAction(){
@@ -51,7 +42,7 @@ function takeAction(){
     QTable[lastState][2] = 0;
     QTable[lastState][3] = 0;
   }
-  if (Math.random() > probabilityToExploit){
+  if (Math.random() > probabilityToExplore){
     QTable[lastState].forEach((possibleReward, possibleAction) => {
       if (possibleReward > max){
         lastAction = possibleAction;
@@ -59,7 +50,8 @@ function takeAction(){
       }
     });
   } else {
-    probabilityToExploit -= probabilityToExploit * exploitDecay;
+    console.log('Explore: ' + probabilityToExplore);
+    probabilityToExplore = probabilityToExplore - (probabilityToExplore * exploreDecay);
     lastAction = Math.floor(Math.random() * (AMOUNT_OF_ACTIONS + 1));
   }
 
@@ -79,22 +71,7 @@ function takeAction(){
   }
 }
 
-function generateState(snakeXPoints, snakeYPoints, direction, xFruit, yFruit, isReward = false){
-  /**let currentState = 'B'.repeat(stateColumns * stateRows).split('');
-  for (let i = 0; i < snakeXPoints.length; i++){
-    let currentPosition = (snakeXPoints[i]/squareSize) + ((snakeYPoints[i]/squareSize) * stateColumns);
-    if (i == snakeXPoints.length - 1)
-      currentState[currentPosition] = directions[direction];
-    else
-      currentState[currentPosition] = 'S';
-  }
-  let currentPosition = (xFruit/squareSize) + ((yFruit/squareSize) * stateColumns);
-  currentState[currentPosition] = 'F';
-  if (isReward)
-    newState = currentState.join('');
-  else
-    lastState = currentState.join('');
-    **/
+function generateState(snakeXPoints, snakeYPoints, direction, xFruit, yFruit, gameWidth, gameHeight, pixelsPerSquare, isReward = false){
 
   let state = '0'.repeat(AMOUNT_OF_STATES).split('');
 
@@ -105,9 +82,9 @@ function generateState(snakeXPoints, snakeYPoints, direction, xFruit, yFruit, is
     state[0] = '1';
   if (snakeHeadY == 0)
     state[1] = '1';
-  if (snakeHeadX == stateColumns)
+  if (snakeHeadX == gameWidth/pixelsPerSquare)
     state[2] = '1';
-  if (snakeHeadY == stateRows)
+  if (snakeHeadY == gameHeight/pixelsPerSquare)
     state[3] = '1';
 
   snakeXPoints.forEach(snakeXPoint => {
