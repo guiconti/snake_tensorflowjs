@@ -205,8 +205,8 @@ const SNAKE_GAME = (function () {
         in between 100 and width-100, and be rounded off to the nearest
         number divisible by 10, since I move the snake in multiples of 10.
       */
-      xFruit = snake.floor(snake.random(PIXELS_PER_SQUARE, snake.width / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
-      yFruit = snake.floor(snake.random(PIXELS_PER_SQUARE, snake.height / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
+      xFruit = snake.floor(snake.random(PIXELS_PER_SQUARE/PIXELS_PER_SQUARE, snake.width / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
+      yFruit = snake.floor(snake.random(PIXELS_PER_SQUARE/PIXELS_PER_SQUARE, snake.height / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
       console.log("x - " + xFruit);
       console.log("y - " + yFruit);
     }
