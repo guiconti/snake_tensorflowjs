@@ -17,7 +17,7 @@ Changing states to be more precise using the map as a X*Y grid. At the moment th
 Implementing E Greedy policy for better exploration and exploitation
 
 ## [V6](v6/index.html)
-Making the state more simple, we only need to look to the surrounds of the snake, not the whole grid. Now we have 256 possible states
+Making the state more simple, we only need to look to the surrounds of the snake, not the whole grid. Now we have 574 possible states
 `;
 const htmlBody = document.getElementById("markdown");
 htmlBody.innerHTML = converter.makeHtml(text);

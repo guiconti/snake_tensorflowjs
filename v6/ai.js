@@ -102,15 +102,19 @@ function generateState(snakeXPoints, snakeYPoints, direction, xFruit, yFruit, ga
   });
 
 
-  if (snakeHeadX > xFruit)
+  if (snakeHeadX == xFruit)
     state[4] = '0';
-  else
+  else if (snakeHeadX > xFruit)
     state[4] = '1';
+  else 
+    state[4] = '2';
 
-  if (snakeHeadY > yFruit)
+  if (snakeHeadY == yFruit)
     state[5] = '0';
-  else
+  else if (snakeHeadY > yFruit)
     state[5] = '1';
+  else 
+    state[5] = '2';
 
   state[6] = directions[direction];
 

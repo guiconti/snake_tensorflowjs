@@ -207,8 +207,6 @@ const SNAKE_GAME = (function () {
       */
       xFruit = snake.floor(snake.random(PIXELS_PER_SQUARE/PIXELS_PER_SQUARE, snake.width / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
       yFruit = snake.floor(snake.random(PIXELS_PER_SQUARE/PIXELS_PER_SQUARE, snake.height / PIXELS_PER_SQUARE)) * PIXELS_PER_SQUARE;
-      console.log("x - " + xFruit);
-      console.log("y - " + yFruit);
     }
 
     function initializeControls() {
