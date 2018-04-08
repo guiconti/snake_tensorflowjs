@@ -45,6 +45,7 @@ $(function() {
   } **/
 
   function setupGame() {
+    console.log(0);
     const playerName = $('#playerName').val();
     if (playerName.length < 1 ||
       playerName.length > 10) {
