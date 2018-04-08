@@ -1,3 +1,23 @@
+function updateLearningRate(learningRate){
+  const learningRateValue = document.getElementById("learningRateValue");
+  learningRateValue.innerHTML = learningRate/100;
+}
+
+function updateGammaRate(gammaRate){
+  const gammaRateValue = document.getElementById("gammaRateValue");
+  gammaRateValue.innerHTML = gammaRate/100;
+}
+
+function updateExploitRate(exploitRate){
+  const exploitRateValue = document.getElementById("exploitRateValue");
+  exploitRateValue.innerHTML = exploitRate/100;
+}
+
+function updateDecayExploitRate(decayExploitRate){
+  const decayExploitRateValue = document.getElementById("decayExploitRateValue");
+  decayExploitRateValue.innerHTML = decayExploitRate/100;
+}
+
 $(function() {
 
   $('#restart').on('click', function() {
@@ -47,6 +67,8 @@ $(function() {
       return;
     }
     $('#initialDiv').hide();
+    $('#AIDivLabels').hide();
+    $('#AIDivValues').hide();
     $('#canvasDiv').hide();
     $('#restart').hide();
     document.body.scrollTop = 0; // For Chrome, Safari and Opera

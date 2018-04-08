@@ -9,7 +9,9 @@ let action;
 let QTable = [];
 let rewardList = [];
 let learningRate = .8;
-let gamma = .95;
+let futureSignificancy = .95;
+let probabilityToExploit = .1;
+let exploitDecay = .1;
 
 let stateColumns;
 let stateRows;
@@ -27,6 +29,11 @@ const directions = {
 };
 
 function start(gameWidth, gameHeight, pixelsPerSquare){
+  learningRate = $('#learningRate').val()/100;
+  futureSignificancy = $('#gammaRate').val()/100;
+  probabilityToExploit = $('#exploitRate').val()/100;
+  exploitDecay = $('#decayExploitRate').val()/100;
+
   stateColumns = gameWidth/pixelsPerSquare;
   stateRows = gameHeight/pixelsPerSquare;
   squareSize = pixelsPerSquare;
@@ -42,12 +49,18 @@ function takeAction(){
     QTable[lastState][2] = 0;
     QTable[lastState][3] = 0;
   }
-  QTable[lastState].forEach((possibleReward, possibleAction) => {
-    if (possibleReward > max){
-      lastAction = possibleAction;
-      max = possibleReward
-    }
-  });
+  if (Math.random() > probabilityToExploit){
+    QTable[lastState].forEach((possibleReward, possibleAction) => {
+      if (possibleReward > max){
+        lastAction = possibleAction;
+        max = possibleReward
+      }
+    });
+  } else {
+    probabilityToExploit -= probabilityToExploit * exploitDecay;
+    lastAction = Math.floor(Math.random() * (AMOUNT_OF_ACTIONS + 1));
+  }
+
   switch(lastAction){
     case UP:
       return('up');
@@ -95,7 +108,7 @@ function updateTable(reward){
       max = possibleReward
     }
   });
-  QTable[lastState][lastAction] = QTable[lastState][lastAction] + learningRate*(reward + gamma * max - QTable[lastState][lastAction]);
+  QTable[lastState][lastAction] = QTable[lastState][lastAction] + learningRate*(reward + futureSignificancy * max - QTable[lastState][lastAction]);
   lastState = newState;
 }
 
