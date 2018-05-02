@@ -50,7 +50,6 @@ function takeAction(){
       }
     });
   } else {
-    console.log('Explore: ' + probabilityToExplore);
     probabilityToExplore = probabilityToExplore - (probabilityToExplore * exploreDecay);
     lastAction = Math.floor(Math.random() * (AMOUNT_OF_ACTIONS + 1));
   }

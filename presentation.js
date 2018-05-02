@@ -18,6 +18,9 @@ Implementing E Greedy policy for better exploration and exploitation
 
 ## [V6](v6/index.html)
 Making the state more simple, we only need to look to the surrounds of the snake, not the whole grid. Now we have 574 possible states
+
+## [V7](v7/index.html)
+Add the option to don't render the game so it can learn a lot faster
 `;
 const htmlBody = document.getElementById("markdown");
 htmlBody.innerHTML = converter.makeHtml(text);
