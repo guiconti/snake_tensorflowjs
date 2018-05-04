@@ -1,6 +1,8 @@
-const Matrix = require('./math/Matrix');
+const NeuralNetwork = require('./neural_network/NeuralNetwork');
 
-let newMatrix = new Matrix(5, 5);
+let nn = new NeuralNetwork(2, 2, 1);
 
-newMatrix.randomize();
-console.table(newMatrix);
+let input = [1,0];
+
+let output = nn.feedForward(input);
+console.log(output);
