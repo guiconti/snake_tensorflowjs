@@ -19,9 +19,11 @@ class NeuralNetwork{
     this.biasOutput = new Matrix(this.outputNodes, 1);
     this.biasHidden.randomize();
     this.biasOutput.randomize();
+
+    this.setLearningRate();
   }
 
-  feedForward(inputArray){
+  predict(inputArray){
 
     let input = Matrix.fromArray(inputArray);
 
@@ -34,6 +36,65 @@ class NeuralNetwork{
     output.map(sigmoid);
 
     return output.toArray();
+  }
+
+  train(inputArray, targetArray) {
+
+    // Generating the Hidden Outputs
+    let inputs = Matrix.fromArray(inputArray);
+
+    // Feedforward
+    let hidden = Matrix.multiply(this.weightsInputHidden, inputs);
+    hidden.add(this.biasHidden);
+    hidden.map(sigmoid);
+
+    let outputs = Matrix.multiply(this.weightsHiddenOutput, hidden);
+    outputs.add(this.biasOutput);
+    outputs.map(sigmoid);
+
+    // Convert array to matrix object
+    let targets = Matrix.fromArray(targetArray);
+
+    // Calculate the error
+    // ERROR = TARGETS - OUTPUTS
+    let outputErrors = Matrix.subtract(targets, outputs);
+
+    // let gradient = outputs * (1 - outputs);
+    // Calculate gradient
+    let gradients = Matrix.map(outputs, sigmoid);
+    gradients.multiply(outputErrors);
+    gradients.multiply(this.learningRate);
+
+
+    // Calculate deltas
+    let hiddenTransposed = Matrix.transpose(hidden);
+    let weightsHiddenOutputDeltas = Matrix.multiply(gradients, hiddenTransposed);
+
+    // Adjust the weights by deltas
+    this.weightsHiddenOutput.add(weightsHiddenOutputDeltas);
+    // Adjust the bias by its deltas (which is just the gradients)
+    this.biasOutput.add(gradients);
+
+    // Calculate the hidden layer errors
+    let weightsHiddenOutputTransposed = Matrix.transpose(this.weightsHiddenOutput);
+    let hiddenErrors = Matrix.multiply(weightsHiddenOutputTransposed, outputErrors);
+
+    // Calculate hidden gradient
+    let hiddenGradient = Matrix.map(hidden, sigmoid);
+    hiddenGradient.multiply(hiddenErrors);
+    hiddenGradient.multiply(this.learningRate);
+
+    // Calcuate input->hidden deltas
+    let inputsTransposed = Matrix.transpose(inputs);
+    let weightsInputHiddenDeltas = Matrix.multiply(hiddenGradient, inputsTransposed);
+
+    this.weightsInputHidden.add(weightsInputHiddenDeltas);
+    // Adjust the bias by its deltas (which is just the gradients)
+    this.biasHidden.add(hiddenGradient);
+  }
+
+  setLearningRate(learningRate = 0.1) {
+    this.learningRate = learningRate;
   }
 
 }
