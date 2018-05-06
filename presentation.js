@@ -24,6 +24,9 @@ Add the option to don't render the game so it can learn a lot faster
 
 ## [V8](v8/index.html)
 Multi AI learning while using the same brain
+
+## [V9](v9/index.html)
+Neuro evolution and [Flappy bird](v9/index2.html) variation
 `;
 const htmlBody = document.getElementById("markdown");
 htmlBody.innerHTML = converter.makeHtml(text);
