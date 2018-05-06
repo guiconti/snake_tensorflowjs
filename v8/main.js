@@ -77,7 +77,8 @@ $(function() {
       Cookies.set('username', playerName);
       $('#gameDiv').show();
       $(document).unbind('keypress');
-      for (let i = 0; i < 10; i++){
+      let aiAmount = $('#AIAmount').val();
+      for (let i = 0; i < aiAmount; i++){
         let gameId = `snakeCanvas${i}`;
         let scoreId = `score${i}`;
         $('#gameDiv').append(`<div class="row">
