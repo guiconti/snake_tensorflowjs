@@ -1,6 +1,6 @@
-const SNAKE_GAME = function(gameId, scoreId){
+const SNAKE_GAME = function(agent, agentId){
 
-  const PARENT_WIDTH = $(`#${gameId}`).parent().width();
+  const PARENT_WIDTH = $(`#snakeCanvas${agentId}`).parent().width();
   const WINDOW_HEIGHT = window.innerHeight;
 
   const MAX_GAME_SIZE = $('#width').val();
@@ -23,7 +23,7 @@ const SNAKE_GAME = function(gameId, scoreId){
 
   let xFruit = 0;
   let yFruit = 0;
-  const SCORE = $(`#${scoreId}`);
+  const SCORE = $(`#score${agentId}`);
   const render = $('#render').is(":checked");
 
   new p5(game);
@@ -33,7 +33,7 @@ const SNAKE_GAME = function(gameId, scoreId){
     snake.setup = function() {
       if (render){
         const CANVAS = snake.createCanvas(canvasWidth, canvasHeight);
-        CANVAS.parent(gameId);
+        CANVAS.parent(`snakeCanvas${agentId}`);
         snake.frameRate(frameRate);
         snake.background(0);
         snake.stroke(255);
@@ -65,8 +65,7 @@ const SNAKE_GAME = function(gameId, scoreId){
       }
       
       //  TODO: AI should be independent from the game
-      ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE);
-      directionsQueue.push(ai.takeAction());
+      directionsQueue.push(agent.takeAction(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE));
       handleDirection();
       updateSnakeCoordinates();
       checkGameStatus();
@@ -175,8 +174,6 @@ const SNAKE_GAME = function(gameId, scoreId){
         Y_COR[Y_COR.length - 1] > snake.height ||
         Y_COR[Y_COR.length - 1] < 0 ||
         checkSnakeCollision()) {
-        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE, true);
-        ai.updateTable(Number.MIN_SAFE_INTEGER);
         snake.noLoop();
         const SCORE_VAL = SCORE.html().substring(8);
         /**SNAKE_GAME_SOCKET.emit('result', {
@@ -185,7 +182,8 @@ const SNAKE_GAME = function(gameId, scoreId){
         });
         **/
         SCORE.html('Game ended! Score : ' + SCORE_VAL);
-        restartGame(gameId, scoreId);
+        agentDeath(agentId);
+        snake.remove();
       }
     }
 
@@ -218,11 +216,9 @@ const SNAKE_GAME = function(gameId, scoreId){
         numSegments++;
         snake.setFrameRate(frameRate++);
         updateFruitCoordinates();
-        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE, true);
-        ai.updateTable(100);
+        agent.updateScore(50);
       } else {
-        ai.generateState(X_COR, Y_COR, direction, xFruit, yFruit, snake.width, snake.height, PIXELS_PER_SQUARE, true);
-        ai.updateTable(-1);
+        agent.updateScore(0.1);
       }
     }
 

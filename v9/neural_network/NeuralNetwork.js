@@ -1,9 +1,7 @@
-const Matrix = require('../math/Matrix');
-
 class ActivationFunction {
   constructor(activation, deactivation) {
-    this.activation = func;
-    this.deactivation = dfunc;
+    this.activation = activation;
+    this.deactivation = deactivation;
   }
 }
 
@@ -138,4 +136,6 @@ class NeuralNetwork{
 
 }
 
-module.exports = NeuralNetwork;
+if (typeof module !== 'undefined') {
+  module.exports = NeuralNetwork;;
+}
