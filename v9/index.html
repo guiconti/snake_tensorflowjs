@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
+  <script src="snake.js"></script>
+  <script src="main.js"></script>
+  <script src="ai.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-5">
+        <div id="gameDiv">
+          <div class="row">
+            <div class="col-sm-6 col-md-6">
+              <button id="restart" type="button" class="btn btn-info">Play again</button>
+            </div>
+          </div>
+        </div>
+        <div id="initialDiv" class="row">
+          <div class="col-xs-12">
+            <h2>Welcome to the famous snake game!</h2>
+            <h4>Please enter name to start: (3-10 characters) </h4>
+          </div>
+          <div class="col-xs-12">
+            <label for="playerName">Name:</label>
+            <input type="text" id="playerName"></input>
+            <button id="startGame" type="button" class="btn btn-info">Start Game</button>
+            <div id="error" class="alert">
+            </div>
+          </div>
+        </div>
+
+        <div id="AIDivLabels" class="row">
+          <div class="col-xs-3">
+            <label for="width">Learning rate: </label><span id="learningRateValue">0.8</span>
+          </div>
+          <div class="col-xs-3">
+            <label for="width">Future significancy: </label><span id="gammaRateValue">0.95</span>
+          </div>
+          <div class="col-xs-3">
+            <label for="width">Probability to explore: </label><span id="exploreRateValue">0.10</span>
+          </div>
+          <div class="col-xs-3">
+            <label for="width">Decay explore rate: </label><span id="decayExploreRateValue">0.10</span>
+          </div>
+        </div>
+
+        <div id="AIDivValues" class="row">
+          <div class="col-xs-3">
+            <input type="range" min="0" max="100" value="80" class="slider" id="learningRate" oninput="updateLearningRate(this.value)">
+          </div>
+          <div class="col-xs-3">
+            <input type="range" min="0" max="100" value="95" class="slider" id="gammaRate" oninput="updateGammaRate(this.value)">
+          </div>
+          <div class="col-xs-3">
+            <input type="range" min="0" max="100" value="10" class="slider" id="exploreRate" oninput="updateExploreRate(this.value)">
+          </div>
+          <div class="col-xs-3">
+            <input type="range" min="0" max="100" value="10" class="slider" id="decayExploreRate" oninput="updateDecayExploreRate(this.value)">
+          </div>
+        </div>
+
+        <div id="canvasDiv" class="row">
+          <div class="col-xs-3">
+            <label for="width">Width</label>
+            <input type="text" value=200 class="form-control" id="width">
+          </div>
+          <div class="col-xs-3">
+            <label for="height">Height</label>
+            <input type="text" value=200 class="form-control" id="height">
+          </div>
+        </div>
+        <div id="paramDiv" class="row">
+          <div class="col-xs-3">
+            <label for="height">Speed</label>
+            <input type="text" value=20 class="form-control" id="speed">
+          </div>
+          <div class="col-xs-3">
+            <label for="height">Render</label>
+            <input type="checkbox" class="form-control" id="render" checked>
+          </div>
+          <div class="col-xs-3">
+            <label for="height">Amount of AIs</label>
+            <input type="text" value=10 class="form-control" id="AIAmount">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-5">
+        <h3 class="text-left">LEADERBOARD</h3>
+        <table class="table table-striped" id="highScoreTable">
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Name</th>
+              <th>High Score</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

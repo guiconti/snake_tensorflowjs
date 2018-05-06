@@ -21,6 +21,9 @@ Making the state more simple, we only need to look to the surrounds of the snake
 
 ## [V7](v7/index.html)
 Add the option to don't render the game so it can learn a lot faster
+
+## [V8](v8/index.html)
+Multi AI learning while using the same brain
 `;
 const htmlBody = document.getElementById("markdown");
 htmlBody.innerHTML = converter.makeHtml(text);
