@@ -29,7 +29,7 @@ Multi AI learning while using the same brain
 Neuro evolution and [Flappy bird](v9/index2.html) variation
 
 ## [V10](v10/snake)
-Neuro evolution at Snake[v10/snake] and [Flappy bird](v10/flappy) variation
+Neuro evolution at [Snake](v10/snake) and [Flappy bird](v10/flappy) variation
 `;
 const htmlBody = document.getElementById("markdown");
 htmlBody.innerHTML = converter.makeHtml(text);
